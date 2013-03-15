@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>sample-test</artifactId>
+	<name>Sage 42 Sample - Tests</name>
+	<packaging>apk</packaging>
+
+	<parent>
+		<groupId>com.sage42.sample</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>android</groupId>
+			<artifactId>android</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.android</groupId>
+			<artifactId>android-test</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.android.robotium</groupId>
+			<artifactId>robotium-solo</artifactId>
+			<version>${robotium.version}</version>
+		</dependency>
+
+		<!-- Link to the project -->
+		<dependency>
+			<groupId>com.sage42.sample</groupId>
+			<artifactId>sample-app</artifactId>
+			<type>apk</type>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sage42.sample</groupId>
+			<artifactId>sample-app</artifactId>
+			<type>jar</type>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+
+		<plugins>
+			<plugin>
+				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+				<artifactId>android-maven-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<nativeLibrariesDirectory>ignored</nativeLibrariesDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<type>jar</type>
+									<file>${project.build.directory}/${project.build.finalName}.jar</file>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<profiles>
+		<profile>
+			<id>emma</id>
+			<dependencies>
+				<dependency>
+					<groupId>emma</groupId>
+					<artifactId>emma</artifactId>
+					<type>jar</type>
+					<scope>compile</scope>
+					<version>2.1.5320</version>
+				</dependency>
+			</dependencies>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>properties-maven-plugin</artifactId>
+						<version>1.0-alpha-1</version>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<goals>
+									<goal>read-project-properties</goal>
+								</goals>
+								<configuration>
+									<files>
+										<!-- read project properties ( can be build.properties or default.properties 
+											Most important property is tested.project.dir - should be path to project 
+											which we want measure coverage -->
+										<file>build.properties</file>
+									</files>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>com.jayway.maven.plugins.android.generation2</groupId>
+						<artifactId>android-maven-plugin</artifactId>
+						<configuration>
+							<test>
+								<!-- Run test with flag "-w coverage true" this is need for generate 
+									coverage.ec file, result file -->
+								<coverage>true</coverage>
+								<createReport>true</createReport>
+								<coverageFile>/sdcard/com.sage42.sample.app/coverage.ec</coverageFile>
+							</test>
+						</configuration>
+						<extensions>true</extensions>
+						<!-- need for pull coverage.ec file and move to tested project -->
+						<executions>
+							<execution>
+								<id>pull-coverage</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>pull</goal>
+								</goals>
+								<configuration>
+									<pullSource>/sdcard/com.sage42.sample.app/coverage.ec</pullSource>
+									<pullDestination>${tested.project.dir}/target/emma/coverage.ec</pullDestination>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-deploy-plugin</artifactId>
+						<configuration>
+							<skip>true</skip>
+							<skipDeploy>true</skipDeploy>
+						</configuration>
+					</plugin>
+
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
