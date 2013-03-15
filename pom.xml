@@ -67,6 +67,7 @@
         <junit.version>4.10</junit.version>
         
         <robotium.version>3.6</robotium.version>
+        <androidannotations>2.7.1</androidannotations>
 
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.emma.reportPath>target/emma/</sonar.emma.reportPath>
@@ -80,7 +81,8 @@
 
    <dependencyManagement>
         <dependencies>
-            <dependency>
+
+        	<dependency>
                 <groupId>android</groupId>
                 <artifactId>android</artifactId>
                 <version>${android.version}</version>
@@ -95,7 +97,7 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
-            
+    
         </dependencies>
     </dependencyManagement>
 
