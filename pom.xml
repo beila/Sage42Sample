@@ -67,7 +67,8 @@
         <junit.version>4.10</junit.version>
         
         <robotium.version>3.6</robotium.version>
-        <androidannotations>2.7.1</androidannotations>
+        <androidannotations.version>2.7.1</androidannotations.version>
+        <ormlite.version>4.44</ormlite.version>
 
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.emma.reportPath>target/emma/</sonar.emma.reportPath>

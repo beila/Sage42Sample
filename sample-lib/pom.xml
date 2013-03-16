@@ -34,6 +34,13 @@
 			<artifactId>androidannotations-api</artifactId>
 			<version>${androidannotations.version}</version>
 		</dependency>
+		
+		<!-- ORM Lite -->
+		<dependency>
+			<groupId>com.j256.ormlite</groupId>
+			<artifactId>ormlite-android</artifactId>
+			<version>${ormlite.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
