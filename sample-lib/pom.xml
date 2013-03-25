@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>sample-lib</artifactId>
-	<name>Sage 42 Sample - Parent</name>
+	<name>Sage 42 Sample - Lib</name>
 	<packaging>apklib</packaging>
 
 	<parent>
