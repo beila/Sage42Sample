@@ -1,8 +1,10 @@
 package com.sage42.sample.lib;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.googlecode.androidannotations.annotations.EActivity;
 
-public class SampleActivity extends Activity
+@EActivity(resName="sample_activity")
+public class SampleActivity extends SherlockActivity
 {
     // nothing yet
 }

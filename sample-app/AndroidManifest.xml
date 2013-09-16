@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	package="com.sage42.sample.app"
-	android:versionCode="1"
-	android:versionName="1.0.1" >
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.sage42.sample.app"
+    android:versionCode="1"
+    android:versionName="1.0.1" >
 
-	<uses-sdk
-		android:minSdkVersion="8"
-		android:targetSdkVersion="17" />
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
 
-	<supports-screens android:anyDensity="true" />
+    <supports-screens android:anyDensity="true" />
 
-	<!-- Settings required by application -->
+    <!-- Settings required by application -->
 
-	<application
-		android:allowBackup="true"
-		android:name="com.sage42.sample.app.SampleApplication"
-		android:hardwareAccelerated="true"
-		android:icon="@drawable/ic_launcher"
-		android:label="@string/app_name" >
-	</application>
+    <application
+        android:name="com.sage42.sample.app.SampleApplication"
+        android:allowBackup="true"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" >
+        <activity android:name="com.sage42.sample.lib.SampleActivity_" />
+    </application>
 
 </manifest>
