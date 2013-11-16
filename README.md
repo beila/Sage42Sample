@@ -1,14 +1,17 @@
-Sage42Sample
-============
+Sage42 - Sample Project 
+=======================
 
-Basic Sample Android App Structure with Maven Support
+Basic Sample Android App Structure with Gradle Support
 
 Intention is to provide a basic common skeleton that can be quickly copied and used to get the project started and ready to use with Sonar and Jenkins.
-
-Possible future extensions include setup for commonly used libraries like ACRA and Google Analytics
 
 Gradle
 -------
 To build use:
-gradle clean build upload
+gradle clean build
 
+To run sonar analysis:
+gradle sonarRunner
+
+To run Android Tests (vanilla, Robotium, etc)
+gradle connectedInstrumentTest

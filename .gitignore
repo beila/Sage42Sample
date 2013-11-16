@@ -15,16 +15,18 @@
 bin/
 build/
 gen/
+target/
 
 # Local configuration file (sdk path, etc)
 local.properties
-project.properties
+#project.properties
 
 # Eclipse project files
-.classpath
-.project
-.factorypath
-.settings/
+# (Currently disabled to allow people to copy this project easier)
+#.classpath
+#.project
+#.factorypath
+#.settings/
 
 # More Eclipse crud
 hs_err_pid*.log
@@ -33,9 +35,8 @@ hs_err_pid*.log
 *.iml
 .idea/
 
-# KDE file manager metadata
-.directory
-
 # Gradle files
-.gradle/*
-
+.gradle/
+gradle/
+gradlew
+gradlew.bat

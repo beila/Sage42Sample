@@ -1,3 +1,5 @@
-include ':sample-lib'
-include ':sample-app'
-include ':sample-test'
+// android app project
+include ':app'
+
+// java library project
+include ':lib'
