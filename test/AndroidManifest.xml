@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.sage42.sample.app.test"
+    android:versionCode="1"
+    android:versionName="1.0" xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-sdk android:minSdkVersion="8" />
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="org.sage42.sample.app" />
+
+    <application tools:ignore="AllowBackup,MissingApplicationIcon">
+        <uses-library android:name="android.test.runner" />
+    </application>
+
+</manifest>

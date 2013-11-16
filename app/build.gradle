@@ -1,0 +1,115 @@
+// Project properties
+project.group = 'org.sage42.sample'
+project.version = '1.0.0'
+
+// standard android plugin
+apply plugin: 'android'
+
+// plugin with signing (aka deploying) APKs
+apply plugin: 'signing'
+
+// Extra config required by Android Annotations
+configurations
+{
+    apt
+}
+
+dependencies
+{
+    // include the lib project
+    compile project(':lib')
+
+    // Extra config required by Android Annotations
+    apt "com.googlecode.androidannotations:androidannotations:${androidAnnotationsVersion}"
+    compile "com.googlecode.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
+
+    // dependancies for testing (Robotium, Mockito, etc)
+    instrumentTestCompile "com.jayway.android.robotium:robotium-solo:$robotiumVersion"
+    instrumentTestCompile "com.google.dexmaker:dexmaker:$dexmakerVersion"
+    instrumentTestCompile "com.google.dexmaker:dexmaker-mockito:$dexmakerMockitoVersion"
+    instrumentTestCompile "org.mockito:mockito-core:$mockitoVersion"
+}
+
+// Config for the android plugin
+android
+{
+    // build tools and compile values (see parent build.gradle file)
+    buildToolsVersion "$androidBuildToolsVersion"
+    compileSdkVersion androidCompileSdkVersion
+    
+    defaultConfig
+    {
+        // target values (see parent build.gradle file)
+        minSdkVersion androidMinSdkVersion
+        targetSdkVersion androidTargetSdkVersion
+
+        // test package name
+        // NOTE: must match the package in the test directory and must be different from the app package        
+        testPackageName "org.sage42.sample.app.test"
+        
+        // standard android test runner
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+
+    sourceSets
+    {
+        // define the file locations for the app
+        main
+        {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src/main/java']
+            resources.srcDirs = ['src/main/resources']
+            aidl.srcDirs = ['src/main/aidl']
+            renderscript.srcDirs = ['src/main/rs']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+
+        // define the file locations for the android test code
+        instrumentTest 
+        {
+            manifest.srcFile '../test/AndroidManifest.xml'
+            java.srcDirs = ['../test/src/test/java']
+            resources.srcDirs = ['../test/src/test/resources']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+    
+}
+
+// AA processing
+android.applicationVariants.all
+{
+    variant ->
+    aptOutput = file("${project.buildDir}/source/apt_generated/${variant.dirName}")
+    println "****************************"
+    println "variant: ${variant.name}"
+    println "manifest:  ${variant.processResources.manifestFile}"
+    println "aptOutput:  ${aptOutput}"
+    println "****************************"
+
+    variant.javaCompile.doFirst
+    {
+        println "*** compile doFirst ${variant.name}"
+        aptOutput.mkdirs()
+        variant.javaCompile.options.compilerArgs += [
+                '-processorpath', configurations.apt.getAsPath(),
+                '-AandroidManifestFile=' + variant.processResources.manifestFile,
+                '-s', aptOutput
+        ]
+    }
+}
+
+// To use: gradle sonarRunner
+sonarRunner 
+{
+    sonarProperties 
+    {
+        property 'sonar.projectName', 'driver-app'
+        
+        properties['sonar.sources'] = android.sourceSets.main.java.srcDirs
+        properties['sonar.tests'] = android.sourceSets.instrumentTest.java.srcDirs
+        properties['sonar.binaries'] = file('build/classes/debug')
+    }
+}
