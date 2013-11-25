@@ -78,6 +78,7 @@ android
     
 }
 
+
 // AA processing
 android.applicationVariants.all
 {
@@ -100,6 +101,7 @@ android.applicationVariants.all
         ]
     }
 }
+
 
 // To use: gradle sonarRunner
 sonarRunner 
